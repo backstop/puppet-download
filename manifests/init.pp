@@ -5,4 +5,9 @@ define download ($url, $timeout = 300) {
 		creates => $name,
 		timeout => $timeout,
 	}
+
+	file { $name:
+		ensure  => present,
+		require => Exec["download ${url}"],
+	}
 }
