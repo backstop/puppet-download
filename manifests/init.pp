@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==========================================================
-define download ($url, $timeout = 300) {
+define download ($url, $owner = 'root', $group = 'root', $mode = "0644", $timeout = 300) {
 	exec { "download ${url}":
 		path    => [ '/bin', '/usr/bin' ],
 		command => "wget -q '${url}' -O ${name}",
@@ -27,6 +27,9 @@ define download ($url, $timeout = 300) {
 
 	file { $name:
 		ensure  => present,
+		owner  => $owner,
+		group => $group,
+		mode  => $mode,
 		require => Exec["download ${url}"],
 	}
 }
